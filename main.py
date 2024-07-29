@@ -1,11 +1,6 @@
-import string
-
 def main():
     file_path = "books/frankenstein.txt"
-    content = get_file_content(file_path)
-    count_words = get_count_words(content)
-    count_characters = get_count_characters(content)
-    print_report(file_path, count_words, count_characters)
+    print_report(file_path)
 
 def get_file_content(file_path):
     with open(file_path) as file:
@@ -26,9 +21,9 @@ def get_count_characters(content):
     
     return characters_dict
 
-def print_report(file_path, count_words, count_characters):
-    print(f"--- Begin report of {file_path} ---")
-    print(f"{count_words} words found in the document")
+def print_report(file_path):
+    count_words = get_count_words(get_file_content(file_path))
+    count_characters = get_count_characters(get_file_content(file_path))
 
     def sort_by_second(tuple):
         return tuple[1]
@@ -36,8 +31,11 @@ def print_report(file_path, count_words, count_characters):
     character_tuples = list(count_characters.items())
     character_tuples.sort(key=sort_by_second, reverse=True)
 
+    print(f"--- Begin report of {file_path} ---")
+    print(f"{count_words} words found in the document")
     for tuple in character_tuples:
         if tuple[0].isalpha():
             print(f"The '{tuple[0]}' character was found {tuple[1]} times")
+    print(f"--- End report ---")
 
 main()
